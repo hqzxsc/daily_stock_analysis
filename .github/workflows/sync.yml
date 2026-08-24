@@ -1,0 +1,20 @@
+name: Sync Fork with Upstream
+
+on:
+  schedule:
+    # 每3小时同步一次，可根据需求修改 cron 表达式
+    - cron: '0 4 * * *'
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync Fork
+        uses: TG908/fork-sync@v1.6.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: ZhuLinsen       # 【必填】上游仓库的作者用户名
+          head: main                  # 【必填】上游仓库的分支名（如 main 或 master）
+          base: main                  # 【必填】你本地 Fork 仓库的分支名
+          auto_approve: false         # 可选：若需自动合并PR，设为true并配置有权限的Token
